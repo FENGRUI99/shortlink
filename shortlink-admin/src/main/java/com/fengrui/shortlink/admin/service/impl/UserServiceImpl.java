@@ -3,6 +3,8 @@ package com.fengrui.shortlink.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
+import com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.dao.mapper.UserMapper;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
@@ -22,7 +24,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                 .eq(UserDO::getUsername, username);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null){
-            // TODO 判断空
+            throw new ServiceException(UserErrorCodeEnum.USER_NULL);
         }
         return DataConverter.INSTANCE.toUserDTO(userDO);
     }
