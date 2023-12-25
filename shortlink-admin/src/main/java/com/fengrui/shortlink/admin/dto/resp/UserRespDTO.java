@@ -1,5 +1,7 @@
 package com.fengrui.shortlink.admin.dto.resp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fengrui.shortlink.admin.common.serialize.PhoneDesensitizationSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,7 +28,7 @@ public class UserRespDTO {
     /**
      * 手机号
      */
-//    @JsonSerialize(using = PhoneDesensitizationSerializer.class)
+    @JsonSerialize(using = PhoneDesensitizationSerializer.class)
     @Schema(description = "手机号")
     private String phone;
 
