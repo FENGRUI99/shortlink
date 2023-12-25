@@ -34,6 +34,7 @@
         <spotless-maven-plugin.version>2.22.1</spotless-maven-plugin.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
+        <knife4j.version>4.3.0</knife4j.version>
     </properties>
 
     <dependencies>
@@ -122,6 +123,12 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -147,10 +154,10 @@
                         <!--<eclipse>
                             <file>${maven.multiModuleProjectDirectory}/format/short-link_spotless_formatter.xml</file>
                         </eclipse>-->
-                        <licenseHeader>
+<!--                        <licenseHeader>-->
                             <!-- ${maven.multiModuleProjectDirectory} 爆红属于正常，并不影响编译或者运行，忽略就好 -->
-                            <file>${maven.multiModuleProjectDirectory}/format/license-header</file>
-                        </licenseHeader>
+<!--                            <file>${maven.multiModuleProjectDirectory}/format/license-header</file>-->
+<!--                        </licenseHeader>-->
                     </java>
                 </configuration>
                 <executions>
