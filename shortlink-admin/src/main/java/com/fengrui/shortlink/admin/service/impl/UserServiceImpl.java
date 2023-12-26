@@ -7,6 +7,7 @@ import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.dao.mapper.UserMapper;
+import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
 import com.fengrui.shortlink.admin.toolkit.DataConverter;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
-    private final UserMapper userMapper;
     @Override
     public UserRespDTO getUserByUsername(String username) {
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
@@ -27,5 +27,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             throw new ServiceException(UserErrorCodeEnum.USER_NULL);
         }
         return DataConverter.INSTANCE.toUserDTO(userDO);
+    }
+
+    @Override
+    public UserActualRespDTO getActualUserByUsername(String username) {
+        LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
+                .eq(UserDO::getUsername, username);
+        UserDO userDO = baseMapper.selectOne(queryWrapper);
+        if (userDO == null){
+            throw new ServiceException(UserErrorCodeEnum.USER_NULL);
+        }
+        UserActualRespDTO userActualRespDTO = DataConverter.INSTANCE.toUserActualDTO(userDO);
+
+        return userActualRespDTO;
     }
 }
