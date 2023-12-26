@@ -29,6 +29,7 @@ knife4j:
 
 
 
-#logging:
-#  pattern:
-#    level: debug
+logging:
+  pattern:
+    level: debug
+  config: classpath:logback-spring.xml
