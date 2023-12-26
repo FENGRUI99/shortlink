@@ -26,8 +26,7 @@ public class UserController {
     @GetMapping("/users")
     @Operation(summary = "根据用户名查找")
     public Result<UserRespDTO> getUserByUsername(@RequestParam("username") String username){
-        UserRespDTO result = userService.getUserByUsername(username);
-        return Results.success(result);
+        return Results.success(userService.getUserByUsername(username));
     }
 
     /**
@@ -36,7 +35,15 @@ public class UserController {
     @GetMapping("/actual/users")
     @Operation(summary = "根据用户名查询无脱敏用户信息")
     public Result<UserActualRespDTO> getActualUserByUsername(@RequestParam("username") String username){
-        UserActualRespDTO result = userService.getActualUserByUsername(username);
-        return Results.success(result);
+        return Results.success(userService.getActualUserByUsername(username));
+    }
+
+    /**
+     * 判断用户名是否存在
+     */
+    @GetMapping("/users/has-username")
+    @Operation(summary = "根据用户名查询无脱敏用户信息")
+    public Result<Boolean> hasUsername(@RequestParam("username") String username){
+        return Results.success(userService.hasUserName(username));
     }
 }

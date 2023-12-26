@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.admin.config;
+package com.fengrui.shortlink.admin.common.log;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +8,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+/**
+ * 用于记录应用启动信息
+ * 打印了应用的访问URL和Swagger文档的访问地址到日志中
+ */
 
 @Slf4j
 @Component

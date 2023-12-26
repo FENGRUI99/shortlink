@@ -41,4 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
         return userActualRespDTO;
     }
+
+    @Override
+    public Boolean hasUserName(String username) {
+        return null;
+    }
 }

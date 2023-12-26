@@ -9,4 +9,6 @@ public interface UserService extends IService<UserDO> {
     public UserRespDTO getUserByUsername(String username);
 
     public UserActualRespDTO getActualUserByUsername(String username);
+
+    public Boolean hasUserName(String username);
 }
