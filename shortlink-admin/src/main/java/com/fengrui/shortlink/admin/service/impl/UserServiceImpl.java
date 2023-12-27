@@ -2,6 +2,7 @@ package com.fengrui.shortlink.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum;
@@ -18,6 +19,8 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.fengrui.shortlink.admin.common.constant.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
 import static com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum.*;
@@ -92,4 +95,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             lock.unlock();
         }
     }
+
+    @Override
+    public List<UserDO> queryUsernameByPage(long pageNum, long pageSize) {
+        LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
+                .select(UserDO::getUsername);
+        Page<UserDO> page = new Page<>(pageNum, pageSize);
+        return baseMapper.selectPage(page, queryWrapper).getRecords();
+    }
+
 }

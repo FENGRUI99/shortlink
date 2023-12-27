@@ -6,6 +6,8 @@ import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 
+import java.util.List;
+
 public interface UserService extends IService<UserDO> {
 
     /**
@@ -29,5 +31,14 @@ public interface UserService extends IService<UserDO> {
      */
     public Boolean hasUsername(String username);
 
+    /**
+     * 用户注册
+     * @param userRegisterReqDTO
+     */
     public void register(UserRegisterReqDTO userRegisterReqDTO);
+
+    /**
+     * 获取全部用户名
+     */
+    public List<UserDO> queryUsernameByPage(long pageNum, long pageSize);
 }

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * 布隆过滤器配置
  */
 @Configuration
-public class RBloomFilterConfiguration {
+public class RBloomFilterConfig {
 
     /**
      * 防止用户注册查询数据库缓存穿透的布隆过滤器
