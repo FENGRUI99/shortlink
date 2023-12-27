@@ -42,4 +42,9 @@ public class BloomFilterServiceImpl implements BloomFilterService {
             throw new ServiceException(BaseErrorCode.SERVICE_BLOOM_FILTER_IMPORT_ERROR);
         }
     }
+
+    @Override
+    public void filterClear() {
+        userRegisterCachePenetrationBloomFilter.delete();
+    }
 }
