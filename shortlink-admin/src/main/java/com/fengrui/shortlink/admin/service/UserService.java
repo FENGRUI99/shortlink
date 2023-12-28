@@ -3,6 +3,7 @@ package com.fengrui.shortlink.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 
@@ -41,4 +42,6 @@ public interface UserService extends IService<UserDO> {
      * 获取全部用户名
      */
     public List<UserDO> queryUsernameByPage(long pageNum, long pageSize);
+
+    public void update(UserUpdateReqDTO userUpdateReqDTO);
 }

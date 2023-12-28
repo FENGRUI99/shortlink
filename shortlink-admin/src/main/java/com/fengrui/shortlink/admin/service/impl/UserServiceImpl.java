@@ -1,6 +1,7 @@
 package com.fengrui.shortlink.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,6 +10,7 @@ import com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.dao.mapper.UserMapper;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
@@ -72,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         try{
             if (lock.tryLock()) {
                 try{
-                    int inserted = baseMapper.insert(DataConverter.INSTANCE.toUserDo(userRegisterReqDTO));
+                    int inserted = baseMapper.insert(DataConverter.INSTANCE.toUserDO(userRegisterReqDTO));
                     if (inserted < 1) {
                         throw new ServiceException(USER_SAVE_ERROR);
                     }
@@ -104,4 +106,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         return baseMapper.selectPage(page, queryWrapper).getRecords();
     }
 
+    @Override
+    public void update(UserUpdateReqDTO userUpdateReqDTO) {
+        // TODO 验证当前用户名是否为登录用户
+        LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)
+                .eq(UserDO::getUsername, userUpdateReqDTO.getUsername());
+        baseMapper.update(DataConverter.INSTANCE.toUserDO(userUpdateReqDTO), updateWrapper);
+    }
 }

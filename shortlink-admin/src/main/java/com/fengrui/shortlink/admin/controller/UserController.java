@@ -3,6 +3,7 @@ package com.fengrui.shortlink.admin.controller;
 import com.fengrui.shortlink.admin.common.convention.result.Result;
 import com.fengrui.shortlink.admin.common.convention.result.Results;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
@@ -53,6 +54,16 @@ public class UserController {
     @Operation(summary = "注册用户")
     public Result<Void> register(@RequestBody UserRegisterReqDTO registerReqDTO){
         userService.register(registerReqDTO);
+        return Results.success();
+    }
+
+    /**
+     * 修改用户信息
+     */
+    @PutMapping("/users")
+    @Operation(summary = "修改用户")
+    public Result<Void> update(@RequestBody UserUpdateReqDTO userUpdateReqDTO){
+        userService.update(userUpdateReqDTO);
         return Results.success();
     }
 }
