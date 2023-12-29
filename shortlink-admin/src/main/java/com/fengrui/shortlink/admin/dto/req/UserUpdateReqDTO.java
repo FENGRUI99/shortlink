@@ -3,8 +3,11 @@ package com.fengrui.shortlink.admin.dto.req;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * 用户修改信息请求参数
+ */
 @Data
-public class UserRegisterReqDTO {
+public class UserUpdateReqDTO {
     /**
      * 用户名
      */
@@ -14,7 +17,6 @@ public class UserRegisterReqDTO {
     /**
      * 密码
      */
-    @Schema(description = "密码")
     private String password;
 
     /**
@@ -34,4 +36,5 @@ public class UserRegisterReqDTO {
      */
     @Schema(description = "邮箱")
     private String mail;
+
 }

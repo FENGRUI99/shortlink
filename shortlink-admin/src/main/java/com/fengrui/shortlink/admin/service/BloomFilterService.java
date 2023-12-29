@@ -5,4 +5,9 @@ package com.fengrui.shortlink.admin.service;
  */
 public interface BloomFilterService {
     public void importDataToBloomFilter();
+
+    /**
+     * 仅测试使用
+     */
+    public void filterClear();
 }

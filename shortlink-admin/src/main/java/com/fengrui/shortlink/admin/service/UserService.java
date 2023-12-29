@@ -2,8 +2,11 @@ package com.fengrui.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
+import com.fengrui.shortlink.admin.dto.req.UserLoginReqDTO;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
+import com.fengrui.shortlink.admin.dto.resp.UserLoginRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 
 import java.util.List;
@@ -41,4 +44,21 @@ public interface UserService extends IService<UserDO> {
      * 获取全部用户名
      */
     public List<UserDO> queryUsernameByPage(long pageNum, long pageSize);
+
+    /**
+     * 更新用户信息
+     */
+    public void update(UserUpdateReqDTO userUpdateReqDTO);
+
+    /**
+     * 用户登录
+     */
+    public UserLoginRespDTO login(UserLoginReqDTO userLoginReqDTO);
+
+    /**
+     * 判断是否登陆
+     */
+    public Boolean checkLogin(String username, String token);
+
+    public void logout(String username, String token);
 }
