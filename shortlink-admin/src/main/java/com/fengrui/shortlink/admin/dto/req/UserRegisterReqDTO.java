@@ -14,6 +14,7 @@ public class UserRegisterReqDTO {
     /**
      * 密码
      */
+    @Schema(description = "密码")
     private String password;
 
     /**

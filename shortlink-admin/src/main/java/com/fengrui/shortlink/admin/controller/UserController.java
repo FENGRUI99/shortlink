@@ -2,11 +2,14 @@ package com.fengrui.shortlink.admin.controller;
 
 import com.fengrui.shortlink.admin.common.convention.result.Result;
 import com.fengrui.shortlink.admin.common.convention.result.Results;
+import com.fengrui.shortlink.admin.dto.req.UserLoginReqDTO;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
+import com.fengrui.shortlink.admin.dto.resp.UserLoginRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
+import groovy.lang.GString;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +67,34 @@ public class UserController {
     @Operation(summary = "修改用户")
     public Result<Void> update(@RequestBody UserUpdateReqDTO userUpdateReqDTO){
         userService.update(userUpdateReqDTO);
+        return Results.success();
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("/users/login")
+    @Operation(summary = "用户登录")
+    public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO userLoginReqDTO){
+        return Results.success(userService.login(userLoginReqDTO));
+    }
+
+    /**
+     * 检查用户是否登陆
+     */
+    @GetMapping("/users/check-login")
+    @Operation(summary = "检查用户是否登陆")
+    public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token){
+        return Results.success(userService.checkLogin(username, token));
+    }
+
+    /**
+     * 用户退出登陆
+     */
+    @DeleteMapping("/users/logout")
+    @Operation(summary = "用户退出登录")
+    public Result<Void> logout(@RequestParam("username") String username, @RequestParam("token") String token){
+        userService.logout(username, token);
         return Results.success();
     }
 }
