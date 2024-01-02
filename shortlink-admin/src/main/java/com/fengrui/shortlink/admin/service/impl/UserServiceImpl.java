@@ -21,7 +21,6 @@ import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
 import com.fengrui.shortlink.admin.toolkit.DataConverter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
