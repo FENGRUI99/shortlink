@@ -8,7 +8,9 @@ import com.fengrui.shortlink.admin.common.biz.user.UserContext;
 import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.dao.entity.GroupDO;
 import com.fengrui.shortlink.admin.dao.mapper.GroupMapper;
+import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
+import com.fengrui.shortlink.admin.toolkit.DataConverter;
 import com.fengrui.shortlink.admin.toolkit.RandomGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +68,17 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     @Override
     public void saveGroup(String groupName) {
         saveGroup(UserContext.getUsername(), groupName);
+    }
+
+    @Override
+    public List<ShortLinkGroupRespDTO> listGroup() {
+        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
+                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getDelFlag, 0)
+                .orderByDesc(GroupDO::getSortOrder, GroupDO::getUpdateTime);
+        List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOS = DataConverter.INSTANCE.toGroupRespDTOList(baseMapper.selectList(queryWrapper));
+        // TODO 分组下短链接数量
+        return shortLinkGroupRespDTOS;
     }
 
     private boolean hasGid(String username, String gid) {

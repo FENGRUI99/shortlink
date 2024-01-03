@@ -3,14 +3,14 @@ package com.fengrui.shortlink.admin.controller;
 import com.fengrui.shortlink.admin.common.convention.result.Result;
 import com.fengrui.shortlink.admin.common.convention.result.Results;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 短链接分组控制层
@@ -28,4 +28,14 @@ public class GroupController {
         groupService.saveGroup(shortLinkGroupSaveReqDTO.getName());
         return Results.success();
     }
+
+    /**
+     * 查询短链接分组集合
+     */
+    @GetMapping("/groups")
+    @Operation(summary = "查询分组")
+    public Result<List<ShortLinkGroupRespDTO>> listGroup() {
+        return Results.success(groupService.listGroup());
+    }
+
 }
