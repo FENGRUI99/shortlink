@@ -3,6 +3,7 @@ package com.fengrui.shortlink.admin.controller;
 import com.fengrui.shortlink.admin.common.convention.result.Result;
 import com.fengrui.shortlink.admin.common.convention.result.Results;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,4 +45,15 @@ public class GroupController {
         return Results.success(groupService.listGroup());
     }
 
+    /**
+     * 修改短链接分组
+     * @param shortLinkGroupUpdateReqDTO
+     * @return
+     */
+    @PutMapping("/groups")
+    @Operation(summary = "修改分组")
+    public Result<Void>  update(@RequestBody ShortLinkGroupUpdateReqDTO shortLinkGroupUpdateReqDTO){
+        groupService.updateGroup(shortLinkGroupUpdateReqDTO);
+        return Results.success();
+    }
 }

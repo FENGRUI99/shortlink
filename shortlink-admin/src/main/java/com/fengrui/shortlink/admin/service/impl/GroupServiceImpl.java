@@ -2,12 +2,14 @@ package com.fengrui.shortlink.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.admin.common.biz.user.UserContext;
 import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.dao.entity.GroupDO;
 import com.fengrui.shortlink.admin.dao.mapper.GroupMapper;
+import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
 import com.fengrui.shortlink.admin.toolkit.DataConverter;
@@ -79,6 +81,18 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOS = DataConverter.INSTANCE.toGroupRespDTOList(baseMapper.selectList(queryWrapper));
         // TODO 分组下短链接数量
         return shortLinkGroupRespDTOS;
+    }
+
+    @Override
+    public void updateGroup(ShortLinkGroupUpdateReqDTO shortLinkGroupRespDTO) {
+        LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
+                .eq(GroupDO::getGid, shortLinkGroupRespDTO.getGid())
+                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getDelFlag, 0);
+        GroupDO groupDO = GroupDO.builder()
+                .name(shortLinkGroupRespDTO.getName())
+                .build();
+        baseMapper.update(groupDO, updateWrapper);
     }
 
     private boolean hasGid(String username, String gid) {

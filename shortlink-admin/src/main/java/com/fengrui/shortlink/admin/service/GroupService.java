@@ -2,6 +2,7 @@ package com.fengrui.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fengrui.shortlink.admin.dao.entity.GroupDO;
+import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 
 import java.util.List;
@@ -29,4 +30,9 @@ public interface GroupService extends IService<GroupDO> {
      * @return List<ShortLinkGroupRespDTO>
      */
     List<ShortLinkGroupRespDTO> listGroup();
+
+    /**
+     * 修改短链接分组
+     */
+    void updateGroup(ShortLinkGroupUpdateReqDTO shortLinkGroupUpdateReqDTO);
 }
