@@ -8,4 +8,16 @@ import com.fengrui.shortlink.admin.dao.entity.GroupDO;
  */
 public interface GroupService extends IService<GroupDO> {
 
+    /**
+     * 新增分组短链接
+     * @param username
+     * @param groupName
+     */
+    void saveGroup(String username, String groupName);
+
+    /**
+     * 新增分组短链接
+     * @param groupName
+     */
+    void saveGroup(String groupName);
 }

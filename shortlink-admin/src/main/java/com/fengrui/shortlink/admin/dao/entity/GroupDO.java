@@ -1,5 +1,7 @@
 package com.fengrui.shortlink.admin.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fengrui.shortlink.admin.common.database.BaseDO;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class GroupDO extends BaseDO {
     /**
      * id
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
