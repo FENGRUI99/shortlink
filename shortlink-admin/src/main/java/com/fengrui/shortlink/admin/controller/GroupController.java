@@ -3,6 +3,7 @@ package com.fengrui.shortlink.admin.controller;
 import com.fengrui.shortlink.admin.common.convention.result.Result;
 import com.fengrui.shortlink.admin.common.convention.result.Results;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
@@ -66,6 +67,18 @@ public class GroupController {
     @Operation(summary = "删除分组")
     public Result<Void> delete(@RequestParam String gid){
         groupService.deleteGroup(gid);
+        return Results.success();
+    }
+
+    /**
+     * 重新排序短链接分组
+     * @param shortLinkGroupSortReqDTOS
+     * @return
+     */
+    @PostMapping("groups/sort")
+    @Operation(summary = "排序分组")
+    public Result<Void> sortGroup(@RequestBody List<ShortLinkGroupSortReqDTO> shortLinkGroupSortReqDTOS){
+        groupService.sortGroup(shortLinkGroupSortReqDTOS);
         return Results.success();
     }
 
