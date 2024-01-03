@@ -22,6 +22,12 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+
+    /**
+     * 新增短链接分组
+     * @param shortLinkGroupSaveReqDTO
+     * @return
+     */
     @PostMapping("/groups")
     @Operation(summary = "新增分组")
     public Result<Void> save(@RequestBody ShortLinkGroupSaveReqDTO shortLinkGroupSaveReqDTO){
