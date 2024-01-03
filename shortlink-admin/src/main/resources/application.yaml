@@ -23,7 +23,9 @@ knife4j:
   setting:
     language: zh-CN
 
-
+short-link:
+  group:
+    max-num: 20
 
 logging:
   pattern:

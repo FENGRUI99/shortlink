@@ -18,10 +18,10 @@ import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserLoginRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
+import com.fengrui.shortlink.admin.service.GroupService;
 import com.fengrui.shortlink.admin.service.UserService;
 import com.fengrui.shortlink.admin.toolkit.DataConverter;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -44,6 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
+    private final GroupService groupService;
 
     @Override
     public UserRespDTO getUserByUsername(String username) {
@@ -101,6 +102,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                     throw new ServiceException(USER_EXIST);
                 }
                 userRegisterCachePenetrationBloomFilter.add(userRegisterReqDTO.getUsername());
+                groupService.saveGroup(userRegisterReqDTO.getUsername(), "默认分组");
                 return;
             }
             throw new ServiceException(USER_NAME_EXIST);

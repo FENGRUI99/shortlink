@@ -1,13 +1,17 @@
 package com.fengrui.shortlink.admin.toolkit;
 
+import com.fengrui.shortlink.admin.dao.entity.GroupDO;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.fengrui.shortlink.admin.dto.req.UserUpdateReqDTO;
+import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DataConverter {
@@ -20,4 +24,6 @@ public interface DataConverter {
     UserDO toUserDO(UserRegisterReqDTO userRegisterReqDTO);
 
     UserDO toUserDO(UserUpdateReqDTO userUpdateReqDTO);
+
+    List<ShortLinkGroupRespDTO> toGroupRespDTOList(List<GroupDO> groupDO);
 }

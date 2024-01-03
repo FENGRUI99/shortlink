@@ -9,7 +9,6 @@ import com.fengrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserLoginRespDTO;
 import com.fengrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.fengrui.shortlink.admin.service.UserService;
-import groovy.lang.GString;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +52,7 @@ public class UserController {
     /**
      * 注册用户
      */
-    @PostMapping("/users")
+    @PostMapping("/users/register")
     @Operation(summary = "注册用户")
     public Result<Void> register(@RequestBody UserRegisterReqDTO registerReqDTO){
         userService.register(registerReqDTO);
