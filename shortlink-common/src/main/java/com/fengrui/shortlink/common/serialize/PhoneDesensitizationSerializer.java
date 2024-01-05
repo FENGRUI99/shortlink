@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.admin.common.serialize;
+package com.fengrui.shortlink.common.serialize;
 
 import cn.hutool.core.util.DesensitizedUtil;
 import com.fasterxml.jackson.core.JsonGenerator;

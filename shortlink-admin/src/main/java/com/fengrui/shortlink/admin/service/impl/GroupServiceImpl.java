@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.admin.common.biz.user.UserContext;
-import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
+import com.fengrui.shortlink.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.dao.entity.GroupDO;
 import com.fengrui.shortlink.admin.dao.mapper.GroupMapper;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
@@ -25,8 +25,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.fengrui.shortlink.admin.common.constant.RedisCacheConstant.LOCK_GROUP_CREATE_KEY;
-import static com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode.SERVICE_MAX_GROUP_NUM;
+import static com.fengrui.shortlink.common.constant.RedisCacheConstant.LOCK_GROUP_CREATE_KEY;
+import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.SERVICE_MAX_GROUP_NUM;
 
 /**
  * 短链接分组接口实现层

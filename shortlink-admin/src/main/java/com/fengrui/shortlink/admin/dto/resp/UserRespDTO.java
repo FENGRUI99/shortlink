@@ -1,7 +1,7 @@
 package com.fengrui.shortlink.admin.dto.resp;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fengrui.shortlink.admin.common.serialize.PhoneDesensitizationSerializer;
+import com.fengrui.shortlink.common.serialize.PhoneDesensitizationSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

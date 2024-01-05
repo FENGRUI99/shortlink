@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.admin.common.convention.errorcode;
+package com.fengrui.shortlink.common.convention.errorcode;
 
 public interface IErrorCode {
     /**

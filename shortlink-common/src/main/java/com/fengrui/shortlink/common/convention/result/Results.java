@@ -1,6 +1,6 @@
-package com.fengrui.shortlink.admin.common.convention.result;
-import com.fengrui.shortlink.admin.common.convention.exception.AbstractException;
-import com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode;
+package com.fengrui.shortlink.common.convention.result;
+import com.fengrui.shortlink.common.convention.exception.AbstractException;
+import com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode;
 
 import java.util.Optional;
 

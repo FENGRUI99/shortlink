@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.admin.common.constant;
+package com.fengrui.shortlink.common.constant;
 
 /**
  * 短链接后管 Redis 缓存常量类

@@ -1,6 +1,6 @@
-package com.fengrui.shortlink.admin.common.convention.result;
+package com.fengrui.shortlink.common.convention.result;
 
-import com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode;
+import com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

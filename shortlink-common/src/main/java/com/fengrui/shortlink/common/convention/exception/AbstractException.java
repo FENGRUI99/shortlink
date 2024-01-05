@@ -1,6 +1,6 @@
-package com.fengrui.shortlink.admin.common.convention.exception;
+package com.fengrui.shortlink.common.convention.exception;
 
-import com.fengrui.shortlink.admin.common.convention.errorcode.IErrorCode;
+import com.fengrui.shortlink.common.convention.errorcode.IErrorCode;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 

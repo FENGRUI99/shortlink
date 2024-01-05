@@ -1,7 +1,7 @@
-package com.fengrui.shortlink.admin.common.convention.exception;
+package com.fengrui.shortlink.common.convention.exception;
 
-import com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode;
-import com.fengrui.shortlink.admin.common.convention.errorcode.IErrorCode;
+import com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode;
+import com.fengrui.shortlink.common.convention.errorcode.IErrorCode;
 
 public class ClientException extends AbstractException {
     public ClientException(IErrorCode errorCode){

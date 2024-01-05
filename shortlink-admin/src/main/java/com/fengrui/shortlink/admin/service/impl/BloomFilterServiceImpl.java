@@ -1,7 +1,7 @@
 package com.fengrui.shortlink.admin.service.impl;
 
-import com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode;
-import com.fengrui.shortlink.admin.common.convention.exception.ServiceException;
+import com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode;
+import com.fengrui.shortlink.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.dao.entity.UserDO;
 import com.fengrui.shortlink.admin.service.BloomFilterService;
 import com.fengrui.shortlink.admin.service.UserService;

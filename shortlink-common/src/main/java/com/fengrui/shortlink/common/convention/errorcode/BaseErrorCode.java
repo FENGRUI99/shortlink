@@ -1,12 +1,10 @@
-package com.fengrui.shortlink.admin.common.convention.errorcode;
+package com.fengrui.shortlink.common.convention.errorcode;
 public enum BaseErrorCode implements IErrorCode{
 
     SUCCESS("0", "成功"),
 
     // ========== 一级宏观错误码 客户端错误 ==========
     CLIENT_ERROR("A000001", "用户端错误"),
-
-    // ========== 二级宏观错误码 用户注册错误 ==========
     USER_REGISTER_ERROR("A000100", "用户注册错误"),
     USER_NAME_VERIFY_ERROR("A000110", "用户名校验失败"),
     USER_NAME_EXIST_ERROR("A000111", "用户名已存在"),
@@ -15,6 +13,22 @@ public enum BaseErrorCode implements IErrorCode{
     PASSWORD_VERIFY_ERROR("A000120", "密码校验失败"),
     PASSWORD_SHORT_ERROR("A000121", "密码长度不够"),
     PHONE_VERIFY_ERROR("A000151", "手机格式校验失败"),
+
+    // ========== 二级宏观错误码 用户注册错误 ==========
+
+    USER_TOKEN_FAIL("A00200", "用户Token验证失败"),
+
+    USER_PASSWORD_WRONG("A00201", "用户密码错误"),
+
+    USER_LOGIN_ERROR("A00202", "用户登陆错误"),
+
+    USER_NULL("B000200", "用户记录不存在"),
+
+    USER_NAME_EXIST("B000201", "用户名已存在"),
+
+    USER_EXIST("B000202", "用户记录已存在"),
+
+    USER_SAVE_ERROR("B000203", "用户记录新增失败"),
 
     // ========== 二级宏观错误码 系统请求缺少幂等Token ==========
     IDEMPOTENT_TOKEN_NULL_ERROR("A000200", "幂等Token为空"),

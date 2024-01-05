@@ -1,7 +1,7 @@
 package com.fengrui.shortlink.admin.controller;
 
-import com.fengrui.shortlink.admin.common.convention.result.Result;
-import com.fengrui.shortlink.admin.common.convention.result.Results;
+import com.fengrui.shortlink.common.convention.result.Result;
+import com.fengrui.shortlink.common.convention.result.Results;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import com.fengrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
