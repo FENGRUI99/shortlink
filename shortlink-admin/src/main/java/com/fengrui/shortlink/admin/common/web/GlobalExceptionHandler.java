@@ -2,10 +2,10 @@ package com.fengrui.shortlink.admin.common.web;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fengrui.shortlink.admin.common.convention.errorcode.BaseErrorCode;
-import com.fengrui.shortlink.admin.common.convention.exception.AbstractException;
-import com.fengrui.shortlink.admin.common.convention.result.Result;
-import com.fengrui.shortlink.admin.common.convention.result.Results;
+import com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode;
+import com.fengrui.shortlink.common.convention.exception.AbstractException;
+import com.fengrui.shortlink.common.convention.result.Result;
+import com.fengrui.shortlink.common.convention.result.Results;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

@@ -13,6 +13,7 @@
         <module>shortlink-admin</module>
         <module>shortlink-project</module>
         <module>shortlink-gateway</module>
+        <module>shortlink-common</module>
     </modules>
 
     <properties>

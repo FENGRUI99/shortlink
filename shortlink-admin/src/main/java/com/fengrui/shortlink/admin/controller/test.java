@@ -1,7 +1,7 @@
 package com.fengrui.shortlink.admin.controller;
 
-import com.fengrui.shortlink.admin.common.convention.result.Result;
-import com.fengrui.shortlink.admin.common.convention.result.Results;
+import com.fengrui.shortlink.common.convention.result.Result;
+import com.fengrui.shortlink.common.convention.result.Results;
 import com.fengrui.shortlink.admin.service.BloomFilterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -3,8 +3,8 @@ package com.fengrui.shortlink.admin.common.biz.user;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
-import com.fengrui.shortlink.admin.common.convention.exception.ClientException;
-import com.fengrui.shortlink.admin.common.convention.result.Results;
+import com.fengrui.shortlink.common.convention.exception.ClientException;
+import com.fengrui.shortlink.common.convention.result.Results;
 import com.google.common.collect.Lists;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import static com.fengrui.shortlink.admin.common.enums.UserErrorCodeEnum.USER_TOKEN_FAIL;
+import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.USER_TOKEN_FAIL;
 
 /**
  * 用户信息传输过滤器
@@ -39,7 +39,7 @@ public class UserTransmitFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String requestURI = httpServletRequest.getRequestURI();
-        if (!(IGNORE_URI.contains(requestURI) || requestURI.startsWith("/v3"))) {
+        if (!(IGNORE_URI.contains(requestURI) || requestURI.startsWith("/v3") || requestURI.startsWith("/webjars"))) {
             String username = httpServletRequest.getHeader("username");
             String token = httpServletRequest.getHeader("token");
             if (!StrUtil.isAllNotBlank(username, token)) {
