@@ -11,13 +11,13 @@ public class SwaggerConfig {
         return new Info()
                 .title(title)
                 .version(version)
-                .description("短链接开发环境文档");
+                .description("短链接用户管理系统");
     }
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(createInfo("Short Link", "1.0"));
+                .info(createInfo("Short Link Admin", "1.0"));
     }
 
 }
