@@ -25,7 +25,7 @@ mybatis-plus:
 springdoc:
   group-configs:
     - group: 后端管理接口
-      packages-to-scan: com.fengrui.shortlink.admin.controller
+      packages-to-scan: com.fengrui.shortlink.project.controller
 
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
