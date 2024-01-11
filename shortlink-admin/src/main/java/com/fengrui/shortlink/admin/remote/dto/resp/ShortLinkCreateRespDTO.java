@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.project.dto.resp;
+package com.fengrui.shortlink.admin.remote.dto.resp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

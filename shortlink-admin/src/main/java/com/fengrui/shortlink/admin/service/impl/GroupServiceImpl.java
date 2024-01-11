@@ -1,11 +1,14 @@
 package com.fengrui.shortlink.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.admin.common.biz.user.UserContext;
+import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService;
+import com.fengrui.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.fengrui.shortlink.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.admin.dao.entity.GroupDO;
 import com.fengrui.shortlink.admin.dao.mapper.GroupMapper;
@@ -15,6 +18,7 @@ import com.fengrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.fengrui.shortlink.admin.service.GroupService;
 import com.fengrui.shortlink.admin.toolkit.DataConverter;
 import com.fengrui.shortlink.admin.toolkit.RandomGenerator;
+import com.fengrui.shortlink.common.convention.result.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -23,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.fengrui.shortlink.common.constant.RedisCacheConstant.LOCK_GROUP_CREATE_KEY;
@@ -39,6 +44,9 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     private Integer groupMaxNum;
 
     private final RedissonClient redissonClient;
+
+    ShortLinkRemoteService shortLinkRemoteService = new ShortLinkRemoteService() {
+    };
 
     @Override
     public void saveGroup(String username, String groupName) {
@@ -79,9 +87,19 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                 .eq(GroupDO::getUsername, UserContext.getUsername())
                 .eq(GroupDO::getDelFlag, 0)
                 .orderByDesc(GroupDO::getSortOrder, GroupDO::getUpdateTime);
-        List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOS = DataConverter.INSTANCE.toGroupRespDTOList(baseMapper.selectList(queryWrapper));
-        // TODO 分组下短链接数量
-        return shortLinkGroupRespDTOS;
+        List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
+        // 远程调用获取分组下短链接数量
+        List<String> gids = groupDOList.stream().map(GroupDO::getGid).toList();
+        Result<List<ShortLinkGroupCountQueryRespDTO>> listResult = shortLinkRemoteService.listGroupShortLinkCount(gids);
+        List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOList = DataConverter.INSTANCE.toGroupRespDTOList(groupDOList);
+        shortLinkGroupRespDTOList.forEach(each -> {
+            Optional<ShortLinkGroupCountQueryRespDTO> first = listResult.getData().stream()
+                    .filter(item -> Objects.equals(item.getGid(), each.getGid()))
+                    .findFirst();
+            first.ifPresent(item -> each.setShortLinkCount(first.get().getShortLinkCount()));
+        });
+
+        return shortLinkGroupRespDTOList;
     }
 
     @Override

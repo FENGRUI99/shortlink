@@ -1,4 +1,4 @@
-package com.fengrui.shortlink.project.dto.req;
+package com.fengrui.shortlink.admin.remote.dto.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

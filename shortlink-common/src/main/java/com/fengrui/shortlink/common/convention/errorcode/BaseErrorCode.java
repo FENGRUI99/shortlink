@@ -30,6 +30,12 @@ public enum BaseErrorCode implements IErrorCode{
 
     USER_SAVE_ERROR("B000203", "用户记录新增失败"),
 
+    // ========== 二级宏观错误码 短链接管理 ==========
+
+    LINK_GENERATE_TOO_FREQUENT("B000301", "短链接频繁生成，请稍后再试"),
+
+    LINK_EXISTS("B000302", "短链接已存在"),
+
     // ========== 二级宏观错误码 系统请求缺少幂等Token ==========
     IDEMPOTENT_TOKEN_NULL_ERROR("A000200", "幂等Token为空"),
     IDEMPOTENT_TOKEN_DELETE_ERROR("A000201", "幂等Token已被使用或失效"),
