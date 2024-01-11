@@ -3,6 +3,7 @@ package com.fengrui.shortlink.project.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.StrBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -21,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.*;
 
@@ -72,6 +76,19 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .orderByDesc(ShortLinkDO::getCreateTime);
         IPage<ShortLinkDO> result = baseMapper.selectPage(shortLinkPageReqDTO, lambdaQueryWrapper);
         return result.convert(each -> BeanUtil.toBean(each, ShortLinkPageRespDTO.class));
+    }
+
+    @Override
+    public List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> gids) {
+        QueryWrapper<ShortLinkDO> queryWrapper = Wrappers.query(new ShortLinkDO())
+                .select("gid as gid, count(*) as shortLinkCount")
+                .in("gid", gids)
+                .eq("enable_status", 0)
+                .eq("del_flag", 0)
+                .eq("del_time", 0)
+                .groupBy("gid");
+        List<Map<String, Object>> result = baseMapper.selectMaps(queryWrapper);
+        return BeanUtil.copyToList(result, ShortLinkGroupCountQueryRespDTO.class);
     }
 
     private String generateSuffix(ShortLinkCreateReqDTO shortLinkCreateReqDTO) {

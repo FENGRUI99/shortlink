@@ -7,6 +7,8 @@ import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.fengrui.shortlink.project.dto.resp.*;
 
+import java.util.List;
+
 /**
  * 短链接接口层
 */
@@ -26,4 +28,13 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @return 分页查询短链接返回参数
      */
     IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkPageReqDTO shortLinkPageReqDTO);
+
+    /**
+     * 查询短链接分组内数量
+     *
+     * @param gids 查询短链接分组内数量请求参数
+     * @return 查询短链接分组内数量
+     */
+    List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> gids);
+
 }
