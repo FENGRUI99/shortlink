@@ -5,6 +5,7 @@ import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
 import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
+import com.fengrui.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -49,5 +50,15 @@ public class ShortLinkController {
     @Operation(summary = "查询分组内短链接数量")
     public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam("gids") List<String> gids) {
         return Results.success(shortLinkService.listGroupShortLinkCount(gids));
+    }
+
+    /**
+     * 修改短链接
+     */
+    @PostMapping("/links/update")
+    @Operation(summary = "修改短链接")
+    public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO shortLinkUpdateReqDTO) {
+        shortLinkService.updateShortLink(shortLinkUpdateReqDTO);
+        return Results.success();
     }
 }

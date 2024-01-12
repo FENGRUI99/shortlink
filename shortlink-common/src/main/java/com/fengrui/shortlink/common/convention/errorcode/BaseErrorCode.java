@@ -36,6 +36,8 @@ public enum BaseErrorCode implements IErrorCode{
 
     LINK_EXISTS("B000302", "短链接已存在"),
 
+    LINK_NOT_EXISTS("B000303", "短链接不存在"),
+
     // ========== 二级宏观错误码 系统请求缺少幂等Token ==========
     IDEMPOTENT_TOKEN_NULL_ERROR("A000200", "幂等Token为空"),
     IDEMPOTENT_TOKEN_DELETE_ERROR("A000201", "幂等Token已被使用或失效"),
