@@ -24,6 +24,7 @@ public class ShortLinkCreateReqDTO {
      */
     private String originUrl;
 
+
     /**
      * 分组标识
      */
@@ -49,4 +50,5 @@ public class ShortLinkCreateReqDTO {
      * 描述
      */
     private String describe;
+
 }
