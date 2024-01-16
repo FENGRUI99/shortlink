@@ -210,7 +210,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         String fullShortUrl = serverName + serverPort + "/" + shortUri;
 
         /**
-         * 缓存击穿：使用缓存系统时，由于某个热w点数据失效或首次请求导致缓存未命中，
+         * 缓存击穿：使用缓存系统时，由于某个热点数据失效或首次请求导致缓存未命中，
          * 而该数据的高并发访问数据库
          *
          * Solution：分布式锁，双重判断
@@ -258,7 +258,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         while (count < 10){
             String originUrl = shortLinkCreateReqDTO.getOriginUrl();
             suffix =  HashUtil.hashToBase62(originUrl + System.currentTimeMillis()); // 增加随机
-            if (!shortUriCreateCachePenetrationBloomFilter.contains(shortLinkCreateReqDTO.getDomain() + "/" + suffix)){
+            if (!shortUriCreateCachePenetrationBloomFilter.contains(createShortLinkDefaultDomain + "/" + suffix)){
                 return suffix;
             }
             count++;
