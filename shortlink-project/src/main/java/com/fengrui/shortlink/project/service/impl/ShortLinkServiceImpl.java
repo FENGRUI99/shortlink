@@ -33,6 +33,8 @@ import org.jsoup.nodes.Element;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -40,10 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.*;
 import static com.fengrui.shortlink.project.common.constant.RedisKeyConstant.GOTO_SHORT_LINK_KEY;
@@ -59,6 +58,9 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final StringRedisTemplate stringRedisTemplate;
     private final RedissonClient redissonClient;
 
+    @Value("${short-link.domain.default}")
+    private String createShortLinkDefaultDomain;
+
     /**
      * 加布隆过滤器判断完整短链接是否有重复
      * 保险起见，还得查数据库确认没有重复
@@ -66,11 +68,12 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     @Override
     public ShortLinkCreateRespDTO createShortLink(ShortLinkCreateReqDTO shortLinkCreateReqDTO) {
         String shortLinkSuffix = generateSuffix(shortLinkCreateReqDTO);
-        String fullUrl = StrBuilder.create(shortLinkCreateReqDTO.getDomain())
+        String fullUrl = StrBuilder.create(createShortLinkDefaultDomain)
                 .append("/")
                 .append(shortLinkSuffix)
                 .toString();
         ShortLinkDO shortLinkDO = DataConverter.INSTANCE.toShortLinkDO(shortLinkCreateReqDTO);
+        shortLinkDO.setDomain(createShortLinkDefaultDomain);
         shortLinkDO.setEnableStatus(0);
         shortLinkDO.setShortUri(shortLinkSuffix);
         shortLinkDO.setFullShortUrl(fullUrl);
@@ -197,8 +200,13 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     @SneakyThrows
     @Override
     public void redirectUrl(String shortUri, ServletRequest request, ServletResponse response) {
-        String domain = request.getServerName();
-        String fullShortUrl = domain + "/" + shortUri;
+        String serverName = request.getServerName();
+        String serverPort = Optional.of(request.getServerPort())
+                .filter(each -> !Objects.equals(each, 80))
+                .map(String::valueOf)
+                .map(each -> ":" + each)
+                .orElse("");
+        String fullShortUrl = serverName + serverPort + "/" + shortUri;
 
         /**
          * 缓存击穿：使用缓存系统时，由于某个热w点数据失效或首次请求导致缓存未命中，

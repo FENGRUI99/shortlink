@@ -18,6 +18,10 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 
+short-link:
+  domain:
+    default: nurl.ink:8001
+
 
 # springdoc-openapi项目配置
 springdoc:
