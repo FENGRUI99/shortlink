@@ -16,9 +16,11 @@ spring:
       suffix: .html
 
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
+
+short-link:
+  domain:
+    default: nurl.ink:8001
 
 
 # springdoc-openapi项目配置

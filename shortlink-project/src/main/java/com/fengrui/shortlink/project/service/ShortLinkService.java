@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fengrui.shortlink.project.dao.entity.ShortLinkDO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
+import com.fengrui.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
 import com.fengrui.shortlink.project.dto.resp.*;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
 
     /**
      * 短链接分页查询
+     *
      * @param shortLinkPageReqDTO 分页查询短链接请求参数
      * @return 分页查询短链接返回参数
      */
@@ -37,4 +41,19 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      */
     List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> gids);
 
+    /**
+     * 修改短链接
+     *
+     * @param requestParam 修改短链接请求参数
+     */
+    void updateShortLink(ShortLinkUpdateReqDTO requestParam);
+
+    /**
+     * 短链接跳转
+     *
+     * @param shortUri 短链接后缀
+     * @param request  HTTP 请求
+     * @param response HTTP 响应
+     */
+    void redirectUrl(String shortUri, ServletRequest request, ServletResponse response);
 }
