@@ -22,6 +22,7 @@ import com.fengrui.shortlink.project.dto.resp.*;
 import com.fengrui.shortlink.project.service.ShortLinkService;
 import com.fengrui.shortlink.project.toolkit.DataConverter;
 import com.fengrui.shortlink.project.toolkit.HashUtil;
+import com.fengrui.shortlink.project.toolkit.LinkUtil;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,13 +42,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.*;
-import static com.fengrui.shortlink.project.common.constant.RedisKeyConstant.GOTO_SHORT_LINK_KEY;
-import static com.fengrui.shortlink.project.common.constant.RedisKeyConstant.LOCK_GOTO_SHORT_LINK_KEY;
+import static com.fengrui.shortlink.project.common.constant.RedisKeyConstant.*;
 
 @Service
 @Slf4j
@@ -91,6 +93,11 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
             log.warn("短链接：{} 重复入库", fullUrl);
             throw new ServiceException(LINK_EXISTS);
         } finally {
+            stringRedisTemplate.opsForValue().set(
+                    String.format(GOTO_SHORT_LINK_KEY, fullUrl),
+                    shortLinkCreateReqDTO.getOriginUrl(),
+                    LinkUtil.getLinkCacheValidTime(shortLinkCreateReqDTO.getValidDate()), TimeUnit.MILLISECONDS
+            );
             shortUriCreateCachePenetrationBloomFilter.add(fullUrl);
         }
 
@@ -208,6 +215,25 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .map(each -> ":" + each)
                 .orElse("");
         String fullShortUrl = serverName + serverPort + "/" + shortUri;
+        String originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+        if (StrUtil.isNotBlank(originLink)){
+            ((HttpServletResponse) response).sendRedirect(originLink);
+            return;
+        }
+
+        // 布隆过滤器防止缓存穿透，但仍会误判
+//        boolean contains = shortUriCreateCachePenetrationBloomFilter.contains(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+//        if (!contains){
+//            ((HttpServletResponse) response).sendRedirect("/page/notfound");
+//            return;
+//        }
+
+        // 判断key对应的是否为空值
+        originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl));
+        if (StrUtil.isNotBlank(originLink)){
+            ((HttpServletResponse) response).sendRedirect("/page/notfound");
+            return;
+        }
 
         /**
          * 缓存击穿：使用缓存系统时，由于某个热点数据失效或首次请求导致缓存未命中，
@@ -215,12 +241,6 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
          *
          * Solution：分布式锁，双重判断
          */
-        String originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
-        if (StrUtil.isNotBlank(originLink)){
-            ((HttpServletResponse) response).sendRedirect(originLink);
-            return;
-        }
-
         RLock lock = redissonClient.getLock(String.format(LOCK_GOTO_SHORT_LINK_KEY, fullShortUrl));
         lock.lock();
         try{
@@ -234,6 +254,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .eq(ShortLinkGotoDO::getFullShortUrl, fullShortUrl);
             ShortLinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(queryWrapper);
             if (shortLinkGotoDO == null){
+                stringRedisTemplate.opsForValue().set(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl), "-", 30, TimeUnit.SECONDS);
+                ((HttpServletResponse) response).sendRedirect("/page/notfound");
                 return;
             }
             // 根据uid获取originUrl
@@ -243,10 +265,17 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .eq(ShortLinkDO::getDelFlag, 0)
                     .eq(ShortLinkDO::getEnableStatus, 0);
             ShortLinkDO shortLinkDO = baseMapper.selectOne(lambdaQueryWrapper);
-            if (shortLinkDO != null){
-                stringRedisTemplate.opsForValue().set(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl), shortLinkDO.getOriginUrl());
-                ((HttpServletResponse) response).sendRedirect(shortLinkDO.getOriginUrl());
+            if (shortLinkDO == null || (shortLinkDO.getValidDate() != null && shortLinkDO.getValidDate().before(new Date()))){
+                stringRedisTemplate.opsForValue().set(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl), "-", 30, TimeUnit.SECONDS);
+                ((HttpServletResponse) response).sendRedirect("/page/notfound");
+                return;
             }
+            stringRedisTemplate.opsForValue().set(
+                    String.format(GOTO_SHORT_LINK_KEY, fullShortUrl),
+                    shortLinkDO.getOriginUrl(),
+                    LinkUtil.getLinkCacheValidTime(shortLinkDO.getValidDate()), TimeUnit.MILLISECONDS
+            );
+            ((HttpServletResponse) response).sendRedirect(shortLinkDO.getOriginUrl());
         } finally {
             lock.unlock();
         }
