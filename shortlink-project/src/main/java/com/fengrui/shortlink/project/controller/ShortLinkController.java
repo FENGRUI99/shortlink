@@ -25,21 +25,29 @@ import java.util.List;
 @Tag(name = "短链接项目管理")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/short-link/project/links")
 public class ShortLinkController {
 
     private final ShortLinkService shortLinkService;
 
     /**
+     * 短链接跳转原始链接
+     */
+    @GetMapping("/{short-uri}")
+    @Operation(summary = "跳转短链接")
+    public void restoreUrl(@PathVariable("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
+        shortLinkService.redirectUrl(shortUri, request, response);
+    }
+
+    /**
      * 创建短链接
      */
-    @PostMapping()
+    @PostMapping("/api/short-link/project/links")
     @Operation(summary = "新增短链接")
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO shortLinkCreateReqDTO) {
         return Results.success(shortLinkService.createShortLink(shortLinkCreateReqDTO));
     }
 
-    @PostMapping("/page")
+    @PostMapping("/api/short-link/project/links/page")
     @Operation(summary = "分页查询短链接")
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(@RequestBody ShortLinkPageReqDTO shortLinkPageReqDTO){
         return Results.success(shortLinkService.pageShortLink(shortLinkPageReqDTO));
@@ -48,7 +56,7 @@ public class ShortLinkController {
     /**
      * 查询短链接分组内数量
      */
-    @GetMapping("/count")
+    @GetMapping("/api/short-link/project/links/count")
     @Operation(summary = "查询分组内短链接数量")
     public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam("gids") List<String> gids) {
         return Results.success(shortLinkService.listGroupShortLinkCount(gids));
@@ -57,19 +65,10 @@ public class ShortLinkController {
     /**
      * 修改短链接
      */
-    @PostMapping("/update")
+    @PostMapping("/api/short-link/project/links/update")
     @Operation(summary = "修改短链接")
     public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO shortLinkUpdateReqDTO) {
         shortLinkService.updateShortLink(shortLinkUpdateReqDTO);
         return Results.success();
-    }
-
-    /**
-     * 短链接跳转原始链接
-     */
-    @GetMapping("/redirect")
-    @Operation(summary = "跳转短链接")
-    public void restoreUrl(@RequestParam("short-uri") String shortUri, ServletRequest request, ServletResponse response) {
-        shortLinkService.redirectUrl(shortUri, request, response);
     }
 }

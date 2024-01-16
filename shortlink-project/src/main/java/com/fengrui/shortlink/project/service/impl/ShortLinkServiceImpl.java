@@ -2,6 +2,7 @@ package com.fengrui.shortlink.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.StrBuilder;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -215,7 +216,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
          * Solution：分布式锁，双重判断
          */
         String originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
-        if (originLink != null){
+        if (StrUtil.isNotBlank(originLink)){
             ((HttpServletResponse) response).sendRedirect(originLink);
             return;
         }
@@ -224,7 +225,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         lock.lock();
         try{
             originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
-            if (originLink != null){
+            if (StrUtil.isNotBlank(originLink)){
                 ((HttpServletResponse) response).sendRedirect(originLink);
                 return;
             }
