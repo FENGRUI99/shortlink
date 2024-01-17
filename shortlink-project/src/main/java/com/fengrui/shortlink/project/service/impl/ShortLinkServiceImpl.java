@@ -222,11 +222,11 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         }
 
         // 布隆过滤器防止缓存穿透，但仍会误判
-//        boolean contains = shortUriCreateCachePenetrationBloomFilter.contains(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
-//        if (!contains){
-//            ((HttpServletResponse) response).sendRedirect("/page/notfound");
-//            return;
-//        }
+        boolean contains = shortUriCreateCachePenetrationBloomFilter.contains(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+        if (!contains){
+            ((HttpServletResponse) response).sendRedirect("/page/notfound");
+            return;
+        }
 
         // 判断key对应的是否为空值
         originLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl));
