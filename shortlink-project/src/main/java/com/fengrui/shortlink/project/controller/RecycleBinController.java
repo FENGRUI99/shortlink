@@ -3,6 +3,7 @@ package com.fengrui.shortlink.project.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
+import com.fengrui.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
 import com.fengrui.shortlink.project.dto.req.RecycleBinSaveReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -42,6 +43,16 @@ public class RecycleBinController {
     @Operation(summary = "分页查询回收站")
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
         return Results.success(recycleBinService.pageShortLink(requestParam));
+    }
+
+    /**
+     * 恢复短链接
+     */
+    @PostMapping("/api/short-link/project/recycle-bin/recover")
+    @Operation(summary = "恢复短链接")
+    public Result<Void> recoverRecycleBin(@RequestBody RecycleBinRecoverReqDTO requestParam) {
+        recycleBinService.recoverRecycleBin(requestParam);
+        return Results.success();
     }
 
 }
