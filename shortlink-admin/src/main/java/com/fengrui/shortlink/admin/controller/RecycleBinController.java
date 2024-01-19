@@ -4,6 +4,7 @@ package com.fengrui.shortlink.admin.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.admin.dto.req.RecycleBinRecoverReqDTO;
 import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService;
+import com.fengrui.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
@@ -61,6 +62,16 @@ public class RecycleBinController {
     @Operation(summary = "恢复短链接")
     public Result<Void> recoverRecycleBin(@RequestBody RecycleBinRecoverReqDTO requestParam) {
         shortLinkRemoteService.recoverRecycleBin(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 移除短链接
+     */
+    @PostMapping("/api/short-link/admin/project/recycle-bin/remove")
+    @Operation(summary = "彻底删除短链接")
+    public Result<Void> removeRecycleBin(@RequestBody RecycleBinRemoveReqDTO requestParam) {
+        shortLinkRemoteService.removeRecycleBin(requestParam);
         return Results.success();
     }
 
