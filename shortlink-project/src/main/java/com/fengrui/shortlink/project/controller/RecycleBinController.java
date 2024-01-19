@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
 import com.fengrui.shortlink.project.dto.req.RecycleBinSaveReqDTO;
+import com.fengrui.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkPageRespDTO;
 import com.fengrui.shortlink.project.service.RecycleBinService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.zookeeper.Op;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +33,15 @@ public class RecycleBinController {
     public Result<Void> saveRecycleBin(@RequestBody RecycleBinSaveReqDTO requestParam) {
         recycleBinService.saveRecycleBin(requestParam);
         return Results.success();
+    }
+
+    /**
+     * 分页查询回收站短链接
+     */
+    @GetMapping("/api/short-link/project/recycle-bin/page")
+    @Operation(summary = "分页查询回收站")
+    public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
+        return Results.success(recycleBinService.pageShortLink(requestParam));
     }
 
 }

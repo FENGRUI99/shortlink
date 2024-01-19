@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import static com.fengrui.shortlink.common.constant.RedisCacheConstant.LOCK_GROUP_CREATE_KEY;
 import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.SERVICE_MAX_GROUP_NUM;
+import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.SERVICE_NO_GROUP;
 
 /**
  * 短链接分组接口实现层
@@ -137,6 +138,18 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                     .eq(GroupDO::getDelFlag, 0);
             baseMapper.update(groupDO, updateWrapper);
         });
+    }
+
+    @Override
+    public List<String> getGids() {
+        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
+                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getDelFlag, 0);
+        List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
+        if (CollUtil.isEmpty(groupDOList)){
+            throw new ServiceException(SERVICE_NO_GROUP);
+        }
+        return groupDOList.stream().map(GroupDO::getGid).toList();
     }
 
     private boolean hasGid(String username, String gid) {

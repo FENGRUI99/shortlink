@@ -43,6 +43,16 @@ public interface GroupService extends IService<GroupDO> {
      */
     void deleteGroup(String gid);
 
+    /**
+     * 分组排序
+     * @param linkGroupSortReqDTOS
+     */
     void sortGroup(List<ShortLinkGroupSortReqDTO> linkGroupSortReqDTOS);
+
+    /**
+     * 获取所有分组gid
+     * @return gids
+     */
+    List<String> getGids();
 
 }

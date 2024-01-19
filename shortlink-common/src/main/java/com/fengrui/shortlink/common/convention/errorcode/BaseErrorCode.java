@@ -54,6 +54,7 @@ public enum BaseErrorCode implements IErrorCode{
     // ========== 二级宏观错误码 分组错误 ==========
     SERVICE_MAX_GROUP_NUM("B000200", "超出最大分组数"),
 
+    SERVICE_NO_GROUP("B000201", "用户无分组信息"),
 
     // ========== 一级宏观错误码 调用第三方服务出错 ==========
     REMOTE_ERROR("C000001", "调用第三方服务出错");
