@@ -222,7 +222,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
         }
 
         // 布隆过滤器防止缓存穿透，但仍会误判
-        boolean contains = shortUriCreateCachePenetrationBloomFilter.contains(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+        boolean contains = shortUriCreateCachePenetrationBloomFilter.contains(fullShortUrl);
         if (!contains){
             ((HttpServletResponse) response).sendRedirect("/page/notfound");
             return;
