@@ -15,9 +15,14 @@ public class RedisKeyConstant {
      */
     public static final String GOTO_IS_NULL_SHORT_LINK_KEY = "short-link:is-null:goto_%s";
 
+    /**
+     * 统计UV Key
+     */
+    public static final String STAT_UV_KEY = "short-link:stats:uv:";
 
     /**
      * 短链接跳转锁前缀 Key
      */
     public static final String LOCK_GOTO_SHORT_LINK_KEY = "short-link_lock_goto_%s";
+
 }
