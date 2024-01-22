@@ -321,8 +321,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .findFirst()
                         .map(Cookie::getValue)
                         .ifPresentOrElse(each -> {
-                            Long added = stringRedisTemplate.opsForSet().add(STAT_UV_KEY + fullShortUrl, each);
-                            uvFirstFlag.set(added != null && added > 0L);
+                            Long uvAdded = stringRedisTemplate.opsForSet().add(STAT_UV_KEY + fullShortUrl, each);
+                            uvFirstFlag.set(uvAdded != null && uvAdded > 0L);
                         }, addResponseCookieTask);
             } else {
                 addResponseCookieTask.run();
@@ -333,6 +333,9 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 ShortLinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(queryWrapper);
                 gid = shortLinkGotoDO.getGid();
             }
+            String ip = LinkUtil.getActualIp((HttpServletRequest) request);
+            Long ipAdded = stringRedisTemplate.opsForSet().add(STAT_UV_KEY + fullShortUrl, ip);
+            boolean uipFirstFlag = ipAdded != null && ipAdded > 0L;
             Date date = new Date();
             int hour = DateUtil.hour(date, true);
             int weekday = DateUtil.dayOfWeekEnum(date).getIso8601Value();
@@ -344,7 +347,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .weekday(weekday)
                     .pv(1)
                     .uv(uvFirstFlag.get() ? 1 : 0)
-                    .uip(1)
+                    .uip(uipFirstFlag ? 1 : 0)
                     .build();
             shortLinkStatsMapper.shortLinkStats(linkAccessStatsDO);
         } catch (Throwable ex){
