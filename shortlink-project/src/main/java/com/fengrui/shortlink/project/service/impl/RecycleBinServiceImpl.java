@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.project.dao.entity.ShortLinkDO;
+import com.fengrui.shortlink.project.dao.entity.ShortLinkGotoDO;
+import com.fengrui.shortlink.project.dao.mapper.ShortLinkGotoMapper;
 import com.fengrui.shortlink.project.dao.mapper.ShortLinkMapper;
 import com.fengrui.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
 import com.fengrui.shortlink.project.dto.req.RecycleBinRemoveReqDTO;
@@ -35,6 +37,7 @@ import static com.fengrui.shortlink.project.common.constant.RedisKeyConstant.GOT
 public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLinkDO> implements RecycleBinService {
 
     private final StringRedisTemplate stringRedisTemplate;
+    private final ShortLinkGotoMapper shortLinkGotoMapper;
 
     @Override
     public void saveRecycleBin(RecycleBinSaveReqDTO requestParam) {
@@ -93,6 +96,12 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLin
                 .build();
         delShortLinkDO.setDelFlag(1);
         baseMapper.update(delShortLinkDO, updateWrapper);
+
+        LambdaQueryWrapper<ShortLinkGotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(ShortLinkGotoDO.class)
+                .eq(ShortLinkGotoDO::getFullShortUrl, requestParam.getFullShortUrl())
+                .eq(ShortLinkGotoDO::getGid, requestParam.getGid());
+        ShortLinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(linkGotoQueryWrapper);
+        shortLinkGotoMapper.deleteById(shortLinkGotoDO.getId());
     }
 }
 
