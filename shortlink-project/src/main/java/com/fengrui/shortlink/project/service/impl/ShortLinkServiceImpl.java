@@ -185,7 +185,6 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .build();
             updateDO.setDelFlag(1);
             baseMapper.update(updateDO, updateWrapper);
-
             ShortLinkDO insertDO = ShortLinkDO.builder()
                     .domain(shortLinkDO.getDomain())
                     .originUrl(shortLinkUpdateReqDTO.getOriginUrl())
@@ -204,6 +203,13 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                     .delTime(0L)
                     .build();
             baseMapper.insert(insertDO);
+            LambdaQueryWrapper<ShortLinkGotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(ShortLinkGotoDO.class)
+                    .eq(ShortLinkGotoDO::getFullShortUrl, shortLinkUpdateReqDTO.getFullShortUrl())
+                    .eq(ShortLinkGotoDO::getGid, shortLinkUpdateReqDTO.getOriginGid());
+            ShortLinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(linkGotoQueryWrapper);
+            shortLinkGotoMapper.deleteById(shortLinkGotoDO.getId());
+            shortLinkGotoDO.setGid(shortLinkUpdateReqDTO.getGid());
+            shortLinkGotoMapper.insert(shortLinkGotoDO);
         }
     }
 
