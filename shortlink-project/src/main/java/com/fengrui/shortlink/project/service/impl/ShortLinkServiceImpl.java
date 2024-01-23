@@ -17,14 +17,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fengrui.shortlink.common.convention.exception.ServiceException;
 import com.fengrui.shortlink.project.common.enums.ValidDateTypeEnum;
-import com.fengrui.shortlink.project.dao.entity.LinkAccessStatsDO;
-import com.fengrui.shortlink.project.dao.entity.LinkLocaleStatsDO;
-import com.fengrui.shortlink.project.dao.entity.ShortLinkDO;
-import com.fengrui.shortlink.project.dao.entity.ShortLinkGotoDO;
-import com.fengrui.shortlink.project.dao.mapper.LinkAccessStatsMapper;
-import com.fengrui.shortlink.project.dao.mapper.LinkLocaleStatsMapper;
-import com.fengrui.shortlink.project.dao.mapper.ShortLinkGotoMapper;
-import com.fengrui.shortlink.project.dao.mapper.ShortLinkMapper;
+import com.fengrui.shortlink.project.dao.entity.*;
+import com.fengrui.shortlink.project.dao.mapper.*;
 import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
@@ -74,8 +68,8 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final StringRedisTemplate stringRedisTemplate;
     private final RedissonClient redissonClient;
     private final LinkAccessStatsMapper shortLinkStatsMapper;
-
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
+    private final LinkOsStatsMapper linkOsStatsMapper;
 
     @Value("${short-link.stats.locale.amap-key}")
     private String statsLocaleAmapKey;
@@ -385,7 +379,17 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 linkLocaleStatsMapper.shortLinkLocaleState(linkLocaleStatsDO);
             }
 
-
+            String os = LinkUtil.getOs((HttpServletRequest) request);
+            if (StrUtil.isNotBlank(os)) {
+                LinkOsStatsDO linkOsStatsDO = LinkOsStatsDO.builder()
+                        .fullShortUrl(fullShortUrl)
+                        .gid(gid)
+                        .date(date)
+                        .os(os)
+                        .cnt(1)
+                        .build();
+                linkOsStatsMapper.shortLinkOsState(linkOsStatsDO);
+            }
 
         } catch (Throwable ex){
             throw new ServiceException(LINK_STATS_ERROR);
