@@ -21,7 +21,9 @@ mybatis-plus:
 short-link:
   domain:
     default: nurl.ink:8001
-
+  stats:
+    locale:
+      amap-key: 824c511f0997586ea016f979fdb23087
 
 # springdoc-openapi项目配置
 springdoc:
