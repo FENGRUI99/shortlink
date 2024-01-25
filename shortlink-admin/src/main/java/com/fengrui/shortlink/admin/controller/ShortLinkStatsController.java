@@ -1,8 +1,11 @@
 package com.fengrui.shortlink.admin.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService;
+import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkStatsReqDTO;
+import com.fengrui.shortlink.admin.remote.dto.resp.ShortLinkStatsAccessRecordRespDTO;
 import com.fengrui.shortlink.admin.remote.dto.resp.ShortLinkStatsRespDTO;
 import com.fengrui.shortlink.common.convention.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +37,15 @@ public class ShortLinkStatsController {
     @Operation(summary = "单个短链接指定时间内监控数据")
     public Result<ShortLinkStatsRespDTO> shortLinkStats(@RequestBody ShortLinkStatsReqDTO requestParam) {
         return shortLinkRemoteService.oneShortLinkStats(requestParam);
+    }
+
+    /**
+     * 分页访问单个短链接指定时间内监控日志数据
+     */
+    @PostMapping("/api/short-link/admin/stats/access-record")
+    @Operation(summary = "分页访问单个短链接指定时间内监控日志数据")
+    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(@RequestBody ShortLinkStatsAccessRecordReqDTO requestParam) {
+        return shortLinkRemoteService.shortLinkStatsAccessRecord(requestParam);
     }
 
 }

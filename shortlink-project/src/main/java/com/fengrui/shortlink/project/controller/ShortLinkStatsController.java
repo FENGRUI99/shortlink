@@ -1,12 +1,16 @@
 package com.fengrui.shortlink.project.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
+import com.fengrui.shortlink.project.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.fengrui.shortlink.project.dto.resp.ShortLinkStatsAccessRecordRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkStatsRespDTO;
 import com.fengrui.shortlink.project.service.ShortLinkStatsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.websocket.OnOpen;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,5 +34,14 @@ public class ShortLinkStatsController {
     @Operation(summary = "单个短链接指定时间内监控数据")
     public Result<ShortLinkStatsRespDTO> shortLinkStats(@RequestBody ShortLinkStatsReqDTO requestParam) {
         return Results.success(shortLinkStatsService.oneShortLinkStats(requestParam));
+    }
+
+    /**
+     * 分页访问单个短链接指定时间内监控日志数据
+     */
+    @PostMapping("/api/short-link/project/stats/access-record")
+    @Operation(summary = "分页访问单个短链接指定时间内监控日志数据")
+    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(@RequestBody ShortLinkStatsAccessRecordReqDTO requestParam) {
+        return Results.success(shortLinkStatsService.shortLinkStatsAccessRecord(requestParam));
     }
 }
