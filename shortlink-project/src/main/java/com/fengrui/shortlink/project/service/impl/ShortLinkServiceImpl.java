@@ -132,12 +132,13 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
 
     @Override
     public IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkPageReqDTO shortLinkPageReqDTO) {
-        LambdaQueryWrapper<ShortLinkDO> lambdaQueryWrapper = Wrappers.lambdaQuery(ShortLinkDO.class)
-                .eq(ShortLinkDO::getGid, shortLinkPageReqDTO.getGid())
-                .eq(ShortLinkDO::getEnableStatus, 0)
-                .eq(ShortLinkDO::getDelFlag, 0)
-                .orderByDesc(ShortLinkDO::getCreateTime);
-        IPage<ShortLinkDO> result = baseMapper.selectPage(shortLinkPageReqDTO, lambdaQueryWrapper);
+//        LambdaQueryWrapper<ShortLinkDO> lambdaQueryWrapper = Wrappers.lambdaQuery(ShortLinkDO.class)
+//                .eq(ShortLinkDO::getGid, shortLinkPageReqDTO.getGid())
+//                .eq(ShortLinkDO::getEnableStatus, 0)
+//                .eq(ShortLinkDO::getDelFlag, 0)
+//                .orderByDesc(ShortLinkDO::getCreateTime);
+//        IPage<ShortLinkDO> result = baseMapper.selectPage(shortLinkPageReqDTO, lambdaQueryWrapper);
+        IPage<ShortLinkDO> result = baseMapper.pageLink(shortLinkPageReqDTO);
         return result.convert(each -> {
             ShortLinkPageRespDTO r = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
             r.setDomain("http://" + r.getDomain());
