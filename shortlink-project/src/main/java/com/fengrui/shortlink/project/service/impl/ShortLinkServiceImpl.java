@@ -437,6 +437,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                         .fullShortUrl(fullShortUrl)
                         .build();
                 linkAccessLogsMapper.insert(linkAccessLogsDO);
+
             }
         } catch (Throwable ex){
             throw new ServiceException(LINK_STATS_ERROR);
