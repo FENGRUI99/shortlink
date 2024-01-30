@@ -3,6 +3,7 @@ package com.fengrui.shortlink.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService;
+import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkGroupStatsReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.req.ShortLinkStatsReqDTO;
 import com.fengrui.shortlink.admin.remote.dto.resp.ShortLinkStatsAccessRecordRespDTO;
@@ -37,6 +38,15 @@ public class ShortLinkStatsController {
     @Operation(summary = "单个短链接指定时间内监控数据")
     public Result<ShortLinkStatsRespDTO> shortLinkStats(@RequestBody ShortLinkStatsReqDTO requestParam) {
         return shortLinkRemoteService.oneShortLinkStats(requestParam);
+    }
+
+    /**
+     * 访问分组短链接指定时间内监控数据
+     */
+    @PostMapping("/api/short-link/admin/admin/stats/group")
+    @Operation(summary = "访问分组短链接指定时间内监控数据")
+    public Result<ShortLinkStatsRespDTO> groupShortLinkStats(@RequestBody ShortLinkGroupStatsReqDTO requestParam) {
+        return shortLinkRemoteService.groupShortLinkStats(requestParam);
     }
 
     /**
