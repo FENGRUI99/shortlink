@@ -3,7 +3,7 @@ export default {
   // 查询分组集合
   queryGroup(data) {
     return http({
-      url: '/group',
+      url: '/groups',
       method: 'get',
       params: data
     })
@@ -11,7 +11,7 @@ export default {
   // 新增短链分组
   addGroup(data) {
     return http({
-      url: '/group',
+      url: '/groups',
       method: 'post',
       data
     })
@@ -19,7 +19,7 @@ export default {
   // 修改短链分组
   editGroup(data) {
     return http({
-      url: '/group',
+      url: '/groups',
       method: 'put',
       data
     })
@@ -27,14 +27,14 @@ export default {
   // 删除短链分组
   deleteGroup(data) {
     return http({
-      url: '/group',
+      url: '/groups',
       method: 'delete',
       params: data
     })
   },
   sortGroup(data) {
     return http({
-      url: '/group/sort',
+      url: '/groups/sort',
       method: 'post',
       data
     })

@@ -48,7 +48,7 @@ public class RecycleBinController {
     /**
      * 分页查询回收站短链接
      */
-    @PostMapping("/api/short-link/admin/project/recycle-bin/page")
+    @PostMapping("/api/short-link/admin/recycle-bin/page")
     @Operation(summary = "分页查询回收站")
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(@RequestBody ShortLinkRecycleBinPageReqDTO requestParam) {
         requestParam.setGidList(groupService.getGids());
@@ -58,7 +58,7 @@ public class RecycleBinController {
     /**
      * 恢复短链接
      */
-    @PostMapping("/api/short-link/admin/project/recycle-bin/recover")
+    @PostMapping("/api/short-link/admin/recycle-bin/recover")
     @Operation(summary = "恢复短链接")
     public Result<Void> recoverRecycleBin(@RequestBody RecycleBinRecoverReqDTO requestParam) {
         shortLinkRemoteService.recoverRecycleBin(requestParam);
@@ -68,7 +68,7 @@ public class RecycleBinController {
     /**
      * 移除短链接
      */
-    @PostMapping("/api/short-link/admin/project/recycle-bin/remove")
+    @PostMapping("/api/short-link/admin/recycle-bin/remove")
     @Operation(summary = "彻底删除短链接")
     public Result<Void> removeRecycleBin(@RequestBody RecycleBinRemoveReqDTO requestParam) {
         shortLinkRemoteService.removeRecycleBin(requestParam);

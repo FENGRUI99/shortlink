@@ -2,14 +2,14 @@ import http from '../axios'
 export default {
   queryPage(data) {
     return http({
-      url: '/page',
-      method: 'get',
-      params: data
+      url: '/links/page',
+      method: 'post',
+      data
     })
   },
   addSmallLink(data) {
     return http({
-      url: '/create',
+      url: '/links',
       method: 'post',
       data
     })
@@ -17,7 +17,7 @@ export default {
   addLinks(data) {
     return http({
       responseType: 'arraybuffer',
-      url: '/create/batch',
+      url: '/links/batch',
       method: 'post',
       data,
       // responseType: 'blob'
@@ -25,7 +25,7 @@ export default {
   },
   editSmallLink(data) {
     return http({
-      url: '/update',
+      url: '/links/update',
       method: 'post',
       data
     })
@@ -50,8 +50,8 @@ export default {
   queryRecycleBin(data) {
     return http({
       url: '/recycle-bin/page',
-      method: 'get',
-      params: data
+      method: 'post',
+      data
     })
   },
   // 恢复短链接
@@ -72,17 +72,17 @@ export default {
   // 查询单链的图表数据
   queryLinkStats(data) {
     return http({
-      method: 'get',
-      params: data,
-      url: 'stats'
+      method: 'post',
+      url: 'stats',
+      data
     })
   },
   // 查询分组的访问记录
   queryLinkTable(data) {
     return http({
-      method: 'get',
-      params: data,
-      url: 'stats/access-record'
+      method: 'post',
+      url: 'stats/access-record',
+      data
     })
   }
 }

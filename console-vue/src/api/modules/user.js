@@ -3,7 +3,7 @@ export default {
   // 注册
   addUser(data) {
     return http({
-      url: '/user',
+      url: '/users/register',
       method: 'post',
       data
     })
@@ -11,7 +11,7 @@ export default {
   // 编辑信息
   editUser(data) {
     return http({
-      url: '/user',
+      url: '/users',
       method: 'put',
       data
     })
@@ -19,7 +19,7 @@ export default {
   // 登录
   login(data) {
     return http({
-      url: '/user/login',
+      url: '/users/login',
       method: 'post',
       data
     })
@@ -27,14 +27,14 @@ export default {
   // 退出登录
   logout(data) {
     return http({
-      url: '/user/logout?token=' + data.token + '&username=' + data.username,
+      url: '/users/logout?token=' + data.token + '&username=' + data.username,
       method: 'delete'
     })
   },
   // 检查用户名是否可用
   hasUsername(data) {
     return http({
-      url: '/user/has-username',
+      url: '/users/has-username',
       method: 'get',
       params: data
     })
@@ -42,7 +42,7 @@ export default {
   // 根据用户名查找用户信息
   queryUserInfo(data) {
     return http({
-      url: '/actual/user/' + data,
+      url: '/actual/users?username=' + data,
       method: 'get'
     })
   }
