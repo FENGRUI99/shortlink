@@ -166,12 +166,23 @@ public interface ShortLinkRemoteService {
      * @return 短链接监控访问记录信息
      */
     default Result<IPage<ShortLinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(ShortLinkStatsAccessRecordReqDTO requestParam) {
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("gid", requestParam.getGid());
-        requestMap.put("current", requestParam.getCurrent());
-        requestMap.put("size", requestParam.getSize());
-        String requestJson = JSON.toJSONString(requestMap);
         HttpResponse httpResponse = HttpUtil.createPost("http://127.0.0.1:8001/api/short-link/project/stats/access-record")
+                .contentType(ContentType.JSON.toString())
+                .body(JSON.toJSONString(requestParam))
+                .execute();
+        String resultPageStr = httpResponse.body();
+        return JSON.parseObject(resultPageStr, new TypeReference<>() {
+        });
+    }
+
+    /**
+     * 分页访问分组短链接指定时间内监控访问记录数据
+     *
+     * @param requestParam 访问分组短链接监控访问记录请求参数
+     * @return 分组短链接监控访问记录信息
+     */
+    default Result<IPage<ShortLinkStatsAccessRecordRespDTO>> groupShortLinkStatsAccessRecord(ShortLinkGroupStatsAccessRecordReqDTO requestParam) {
+        HttpResponse httpResponse = HttpUtil.createPost("http://127.0.0.1:8001/api/short-link/project/stats/access-record/group")
                 .contentType(ContentType.JSON.toString())
                 .body(JSON.toJSONString(requestParam))
                 .execute();

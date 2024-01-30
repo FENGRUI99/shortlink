@@ -3,6 +3,7 @@ package com.fengrui.shortlink.project.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
+import com.fengrui.shortlink.project.dto.req.ShortLinkGroupStatsAccessRecordReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkStatsAccessRecordReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkStatsReqDTO;
@@ -53,5 +54,14 @@ public class ShortLinkStatsController {
     @Operation(summary = "访问分组短链接指定时间内监控数据")
     public Result<ShortLinkStatsRespDTO> groupShortLinkStats(@RequestBody ShortLinkGroupStatsReqDTO requestParam) {
         return Results.success(shortLinkStatsService.groupShortLinkStats(requestParam));
+    }
+
+    /**
+     * 分页访问分组短链接指定时间内访问记录监控数据
+     */
+    @PostMapping("/api/short-link/project/stats/access-record/group")
+    @Operation(summary = "分页访问分组短链接指定时间内访问记录监控日志数据")
+    public Result<IPage<ShortLinkStatsAccessRecordRespDTO>> groupShortLinkStatsAccessRecord(@RequestBody ShortLinkGroupStatsAccessRecordReqDTO requestParam) {
+        return Results.success(shortLinkStatsService.groupShortLinkStatsAccessRecord(requestParam));
     }
 }
