@@ -42,7 +42,7 @@ public interface LinkAccessStatsMapper extends BaseMapper<LinkAccessStatsDO> {
     List<LinkAccessStatsDO> listStatsByShortLink(@Param("param") ShortLinkStatsReqDTO linkAccessStatsDO);
 
     /**
-     * 根据短链接获取指定日期内小时基础监控数据
+     * 根据短链接获取指定日期内小时基础日志记录
      */
     @Select("SELECT " +
             "    hour, " +
