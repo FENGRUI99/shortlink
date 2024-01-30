@@ -3,6 +3,7 @@ package com.fengrui.shortlink.project.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fengrui.shortlink.project.dao.entity.ShortLinkDO;
+import com.fengrui.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
@@ -24,6 +25,15 @@ public interface ShortLinkService extends IService<ShortLinkDO> {
      * @return 短链接创建信息
      */
     ShortLinkCreateRespDTO createShortLink(ShortLinkCreateReqDTO shortLinkCreateReqDTO);
+
+    /**
+     * 批量创建短链接
+     *
+     * @param requestParam 批量创建短链接请求参数
+     * @return 批量创建短链接返回参数
+     */
+    ShortLinkBatchCreateRespDTO batchCreateShortLink(ShortLinkBatchCreateReqDTO requestParam);
+
 
     /**
      * 短链接分页查询

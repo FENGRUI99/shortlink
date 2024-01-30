@@ -3,9 +3,11 @@ package com.fengrui.shortlink.project.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fengrui.shortlink.common.convention.result.Result;
 import com.fengrui.shortlink.common.convention.result.Results;
+import com.fengrui.shortlink.project.dto.req.ShortLinkBatchCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkCreateReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkPageReqDTO;
 import com.fengrui.shortlink.project.dto.req.ShortLinkUpdateReqDTO;
+import com.fengrui.shortlink.project.dto.resp.ShortLinkBatchCreateRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkCreateRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.fengrui.shortlink.project.dto.resp.ShortLinkPageRespDTO;
@@ -45,6 +47,14 @@ public class ShortLinkController {
     @Operation(summary = "新增短链接")
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO shortLinkCreateReqDTO) {
         return Results.success(shortLinkService.createShortLink(shortLinkCreateReqDTO));
+    }
+
+    /**
+     * 批量创建短链接
+     */
+    @PostMapping("/api/short-link/project/links/batch")
+    public Result<ShortLinkBatchCreateRespDTO> batchCreateShortLink(@RequestBody ShortLinkBatchCreateReqDTO requestParam) {
+        return Results.success(shortLinkService.batchCreateShortLink(requestParam));
     }
 
     @PostMapping("/api/short-link/project/links/page")
