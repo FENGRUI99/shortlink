@@ -38,6 +38,11 @@ public enum BaseErrorCode implements IErrorCode{
 
     LINK_NOT_EXISTS("B000303", "短链接不存在"),
 
+
+    // ========== 二级宏观错误码 短链接统计异常 ==========
+    LINK_STATS_ERROR("B000400", "短链接访问量统计异常"),
+
+
     // ========== 二级宏观错误码 系统请求缺少幂等Token ==========
     IDEMPOTENT_TOKEN_NULL_ERROR("A000200", "幂等Token为空"),
     IDEMPOTENT_TOKEN_DELETE_ERROR("A000201", "幂等Token已被使用或失效"),
@@ -52,8 +57,9 @@ public enum BaseErrorCode implements IErrorCode{
     SERVICE_BLOOM_FILTER_IMPORT_ERROR("B000101", "布隆过滤器初始化失败"),
 
     // ========== 二级宏观错误码 分组错误 ==========
-    SERVICE_MAX_GROUP_NUM("B000200", "超出最大分组数"),
+    SERVICE_MAX_GROUP_NUM("B000400", "超出最大分组数"),
 
+    SERVICE_NO_GROUP("B000401", "用户无分组信息"),
 
     // ========== 一级宏观错误码 调用第三方服务出错 ==========
     REMOTE_ERROR("C000001", "调用第三方服务出错");
