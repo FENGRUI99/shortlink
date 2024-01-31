@@ -260,6 +260,21 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
             shortLinkGotoDO.setGid(shortLinkUpdateReqDTO.getGid());
             shortLinkGotoMapper.insert(shortLinkGotoDO);
         }
+
+        // 修复bug：有效日期变更后短链接无法跳转
+        if (!Objects.equals(shortLinkDO.getValidDateType(), shortLinkUpdateReqDTO.getValidDateType())
+                || !Objects.equals(shortLinkDO.getValidDate(), shortLinkUpdateReqDTO.getValidDate())){
+            // 有效期类型变更，需要删除GOTO_SHORT_LINK_KEY
+            stringRedisTemplate.delete(String.format(GOTO_SHORT_LINK_KEY, shortLinkDO.getFullShortUrl()));
+            // 旧短链接过期，需要删除GOTO_IS_NULL_SHORT_LINK_KEY
+            if (shortLinkDO.getValidDate() != null && shortLinkDO.getValidDate().before(new Date())){
+                if (Objects.equals(shortLinkUpdateReqDTO.getValidDateType(), ValidDateTypeEnum.PERMANENT.getType())
+                        || shortLinkUpdateReqDTO.getValidDate().after(new Date())){
+                    stringRedisTemplate.delete(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, shortLinkDO.getFullShortUrl()));
+                }
+            }
+        }
+
     }
 
     @SneakyThrows
