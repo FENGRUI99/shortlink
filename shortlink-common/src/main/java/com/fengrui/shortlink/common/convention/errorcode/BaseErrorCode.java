@@ -38,6 +38,9 @@ public enum BaseErrorCode implements IErrorCode{
 
     LINK_NOT_EXISTS("B000303", "短链接不存在"),
 
+    LINK_BATCH_GENERATE_ERROR("B000304", "批量生产失败"),
+
+    LINK_UPDATE_LOCK("B000304", "短链接正在被访问，请稍后再试"),
 
     // ========== 二级宏观错误码 短链接统计异常 ==========
     LINK_STATS_ERROR("B000400", "短链接访问量统计异常"),

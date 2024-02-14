@@ -34,6 +34,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static com.fengrui.shortlink.common.constant.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
+import static com.fengrui.shortlink.common.constant.RedisCacheConstant.USER_LOGIN_KEY;
 import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.*;
 
 @Service
@@ -136,8 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (userDO == null){
             throw new ClientException(USER_PASSWORD_WRONG);
         }
-        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries("login_" + userDO.getUsername());
-
+        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(USER_LOGIN_KEY + userDO.getUsername());
         // 用户重复登陆返回token
         if(CollUtil.isNotEmpty(hasLoginMap)){
             String token = hasLoginMap.keySet().stream()
@@ -154,20 +154,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
          *  类似于Map<Object, Map<Object, Object>>
          */
         String uuid = UUID.randomUUID().toString();
-        stringRedisTemplate.opsForHash().put("login_" + userDO.getUsername(), uuid, JSON.toJSONString(userDO));
-        stringRedisTemplate.expire("login_" + userDO.getUsername(), 30L, TimeUnit.DAYS);
+        stringRedisTemplate.opsForHash().put(USER_LOGIN_KEY + userDO.getUsername(), uuid, JSON.toJSONString(userDO));
+        stringRedisTemplate.expire(USER_LOGIN_KEY + userDO.getUsername(), 30L, TimeUnit.MINUTES);
         return new UserLoginRespDTO(uuid);
     }
 
     @Override
     public Boolean checkLogin(String username, String token) {
-        return stringRedisTemplate.opsForHash().get("login_" + username, token) != null;
+        return stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token) != null;
     }
 
     @Override
     public void logout(String username, String token) {
         if (checkLogin(username, token)){
-           stringRedisTemplate.delete("login_" + username);
+            stringRedisTemplate.delete(USER_LOGIN_KEY + username);
            return;
         }
         throw new ClientException(USER_TOKEN_FAIL);

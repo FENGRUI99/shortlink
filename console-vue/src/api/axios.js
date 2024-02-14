@@ -6,7 +6,8 @@ import { isNotEmpty } from '@/utils/plugins.js'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 // const baseURL = '/resourcesharing/organizational'
-const baseURL = '/api/short-link/admin/v1'
+const baseURL = '/api/short-link/admin/'
+// const baseURL = '/short-link/admin/'
 // 创建实例
 const http = axios.create({
   // api 代理为服务器请求地址
@@ -28,11 +29,6 @@ http.interceptors.request.use(
 // 响应拦截 -->在返回结果之前做一些事情
 http.interceptors.response.use(
   (res) => {
-    // 如果返回的code为 A000200代表登录过期或者没登录，将localStorage中的token清空
-    if (res.data.code === 'A000200') {
-      localStorage.removeItem('token')
-      router.push('/login')
-    }
     if (res.status == 0 || res.status == 200) {
       // 请求成功对响应数据做处理，此处返回的数据是axios.then(res)中接收的数据
       // code值为 0 或 200 时视为成功
@@ -43,6 +39,10 @@ http.interceptors.response.use(
   (err) => {
     // 在请求错误时要做的事儿
     // 此处返回的数据是axios.catch(err)中接收的数据
+    if (err.response.status === 401) {
+      localStorage.removeItem('token')
+      router.push('/login')
+    }
     return Promise.reject(err)
   }
 )

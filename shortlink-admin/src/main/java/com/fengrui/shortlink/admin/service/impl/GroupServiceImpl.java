@@ -133,7 +133,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                     .sortOrder(each.getSortOrder())
                     .build();
             LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
-                    .eq(GroupDO::getId, each.getGid())
+                    .eq(GroupDO::getGid, each.getGid())
                     .eq(GroupDO::getUsername, UserContext.getUsername())
                     .eq(GroupDO::getDelFlag, 0);
             baseMapper.update(groupDO, updateWrapper);
