@@ -40,9 +40,9 @@ public class RecycleBinController {
     /**
      * 分页查询回收站短链接
      */
-    @GetMapping("/api/short-link/project/recycle-bin/page")
+    @PostMapping("/api/short-link/project/recycle-bin/page")
     @Operation(summary = "分页查询回收站")
-    public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
+    public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(@RequestBody ShortLinkRecycleBinPageReqDTO requestParam) {
         return Results.success(recycleBinService.pageShortLink(requestParam));
     }
 
