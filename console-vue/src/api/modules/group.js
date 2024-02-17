@@ -50,8 +50,8 @@ export default {
   // 查询分组的访问记录
   queryGroupTable(data) {
     return http({
-      method: 'get',
-      params: data,
+      method: 'post',
+      data,
       url: 'stats/access-record/group'
     })
   }
