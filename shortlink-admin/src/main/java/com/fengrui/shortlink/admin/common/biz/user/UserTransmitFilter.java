@@ -25,39 +25,15 @@ import static com.fengrui.shortlink.common.convention.errorcode.BaseErrorCode.US
  */
 @RequiredArgsConstructor
 public class UserTransmitFilter implements Filter {
-    private final StringRedisTemplate stringRedisTemplate;
-
-    private static final List<String> IGNORE_URI = Lists.newArrayList(
-            "/api/short-link/admin/users/login",
-            "/api/short-link/admin/users/has-username",
-            "/api/short-link/admin/users/register",
-            "/doc.html",
-            "/v3/api-docs/swagger-config"
-    );
-
     @SneakyThrows
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String requestURI = httpServletRequest.getRequestURI();
-        if (!(IGNORE_URI.contains(requestURI) || requestURI.startsWith("/v3") || requestURI.startsWith("/webjars"))) {
-            String username = httpServletRequest.getHeader("username");
-            String token = httpServletRequest.getHeader("token");
-            if (!StrUtil.isAllNotBlank(username, token)) {
-                returnJson((HttpServletResponse) servletResponse, JSON.toJSONString(Results.failure(new ClientException(USER_TOKEN_FAIL))));
-                return;
-            }
-            Object userInfoJsonStr;
-            try {
-                userInfoJsonStr = stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token);
-                if (userInfoJsonStr == null) {
-                    throw new ClientException(USER_TOKEN_FAIL);
-                }
-            } catch (Exception ex) {
-                returnJson((HttpServletResponse) servletResponse, JSON.toJSONString(Results.failure(new ClientException(USER_TOKEN_FAIL))));
-                return;
-            }
-            UserInfoDTO userInfoDTO = JSON.parseObject(userInfoJsonStr.toString(), UserInfoDTO.class);
+        String username = httpServletRequest.getHeader("username");
+        if (StrUtil.isNotBlank(username)) {
+            String userId = httpServletRequest.getHeader("userId");
+            String realName = httpServletRequest.getHeader("realName");
+            UserInfoDTO userInfoDTO = new UserInfoDTO(userId, username, realName);
             UserContext.setUser(userInfoDTO);
         }
         try {
@@ -66,13 +42,4 @@ public class UserTransmitFilter implements Filter {
             UserContext.removeUser();
         }
     }
-
-    private void returnJson(HttpServletResponse response, String json) throws Exception {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=utf-8");
-        try (PrintWriter writer = response.getWriter()) {
-            writer.print(json);
-        }
-    }
-
 }
