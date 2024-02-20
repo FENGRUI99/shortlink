@@ -20,11 +20,14 @@ spring:
             - Path=/api/short-link/**
           filters:
             - name: TokenValidate
+
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 10.211.55.4:8848
   data:
     redis:
-      host: 127.0.0.1
+      host: 10.211.55.4
       port: 6379
       password: fengyan1
+
+

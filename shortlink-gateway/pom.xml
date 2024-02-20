@@ -59,73 +59,85 @@
 <!--            </plugin>-->
 <!--        </plugins>-->
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-            <!--                <version>3.6.1</version>-->
-            <!--                <configuration>-->
-            <!--                    <source>17</source>-->
-            <!--                    <target>17</target>-->
-            <!--                    <annotationProcessorPaths>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok</artifactId>-->
-            <!--                            <version>${lombok.version}</version>-->
-            <!--                        </path>-->
-            <!--                        <path>-->
-            <!--                            <groupId>org.mapstruct</groupId>-->
-            <!--                            <artifactId>mapstruct-processor</artifactId>-->
-            <!--                            <version>${mapstruct.version}</version>-->
-            <!--                        </path>-->
-            <!--                    </annotationProcessorPaths>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
             <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>2.4.0</version>
-                <configuration>
-                    <!-- 拉取所需的基础镜像 - 这里的jdk17，是用于运行springboot项目 -->
-                    <from>
-                        <image>m.daocloud.io/docker.io/openjdk:17-jdk-slim</image>
-                    </from>
-                    <!-- 最后生成的镜像配置 -->
-                    <to>
-                        <!-- push docer-hub官方仓库。用户名/镜像名：版本号 -->
-                        <!--                        <image>registry.hub.docker.com/fengruicheng99/${project.artifactId}:${project.version}</image>-->
-                        <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
-                        <!--<image>registry.cn-chengdu.aliyuncs.com/renbaojia/ctfo</image>-->
-                        <image>registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-gateway</image>
-                        <tags>
-                            <!--版本号-->
-                            <tag>${project.version}</tag>
-                        </tags>
-                        <auth>
-                            <!--在docker-hub或者阿里云上的账号和密码-->
-                            <username>chengfengrui2020</username>
-                            <password>fengyan1</password>
-                        </auth>
-                    </to>
-                    <container>
-                        <!-- springboot项目的入口类 -->
-                        <mainClass>com.fengrui.shortlink.gateway.GatewayServiceApplication</mainClass>
-                        <!--                        <useCurrentTimestamp>true</useCurrentTimestamp>-->
-                        <ports>
-                            <!-- 指定镜像端口 , 这里没用docfile的操作 -->
-                            <port>8000</port>
-                        </ports>
-                    </container>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
                         <goals>
-                            <goal>build</goal>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
+<!--            <plugin>-->
+<!--                <groupId>com.google.cloud.tools</groupId>-->
+<!--                <artifactId>jib-maven-plugin</artifactId>-->
+<!--                <version>2.4.0</version>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash; 拉取所需的基础镜像 - 这里的jdk17，是用于运行springboot项目 &ndash;&gt;-->
+<!--                    <from>-->
+<!--                        <image>m.daocloud.io/docker.io/openjdk:17-jdk-slim</image>-->
+<!--                    </from>-->
+<!--                    &lt;!&ndash; 最后生成的镜像配置 &ndash;&gt;-->
+<!--                    <to>-->
+<!--                        &lt;!&ndash; push docer-hub官方仓库。用户名/镜像名：版本号 &ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <image>registry.hub.docker.com/fengruicheng99/${project.artifactId}:${project.version}</image>&ndash;&gt;-->
+<!--                        &lt;!&ndash; 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 &ndash;&gt;-->
+<!--                        &lt;!&ndash;<image>registry.cn-chengdu.aliyuncs.com/renbaojia/ctfo</image>&ndash;&gt;-->
+<!--                        <image>registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-gateway</image>-->
+<!--                        <tags>-->
+<!--                            &lt;!&ndash;版本号&ndash;&gt;-->
+<!--                            <tag>${project.version}</tag>-->
+<!--                        </tags>-->
+<!--                        <auth>-->
+<!--                            &lt;!&ndash;在docker-hub或者阿里云上的账号和密码&ndash;&gt;-->
+<!--                            <username>chengfengrui2020</username>-->
+<!--                            <password>fengyan1</password>-->
+<!--                        </auth>-->
+<!--                    </to>-->
+<!--                    <container>-->
+<!--                        &lt;!&ndash; springboot项目的入口类 &ndash;&gt;-->
+<!--                        <mainClass>com.fengrui.shortlink.gateway.ShortLinkGatewayApplication</mainClass>-->
+<!--                        &lt;!&ndash;                        <useCurrentTimestamp>true</useCurrentTimestamp>&ndash;&gt;-->
+<!--                        <ports>-->
+<!--                            &lt;!&ndash; 指定镜像端口 , 这里没用docfile的操作 &ndash;&gt;-->
+<!--                            <port>8000</port>-->
+<!--                        </ports>-->
+<!--                    </container>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

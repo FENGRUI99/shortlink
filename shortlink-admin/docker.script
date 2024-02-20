@@ -1,0 +1,5 @@
+docker build --platform linux/arm64/v8 -t shortlink-admin .
+
+docker tag d682dc2fbc07 registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-admin:latest
+
+docker push registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-admin:latest

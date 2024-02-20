@@ -4,45 +4,13 @@ server:
 spring:
   application:
     name: short-link-project
-  datasource:
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:dev}.yaml
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      password: fengyan1
   mvc:
     view:
       prefix: /templates/
       suffix: .html
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-
-short-link:
-  domain:
-    default: nurl.ink:8002
-  stats:
-    locale:
-#      amap-key: 824c511f0997586ea016f979fdb23087
-      amap-key: 52ea93d16720e5194b693abbd14d17c1
-
-# springdoc-openapi项目配置
-springdoc:
-  group-configs:
-    - group: 后端管理接口
-      packages-to-scan: com.fengrui.shortlink.project.controller
-
-# knife4j的增强配置，不需要增强可以不配
-knife4j:
-  enable: true
-  setting:
-    language: zh-CN
 
 logging:
   pattern:

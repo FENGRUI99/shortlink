@@ -1,0 +1,3 @@
+docker build --platform linux/arm64/v8 -t shortlink-gateway .
+docker tag 67c586f9c757 registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-gateway:latest
+docker push registry.cn-hangzhou.aliyuncs.com/fengrui/shortlink-gateway:latest

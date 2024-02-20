@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:prd}.yaml
+  data:
+    redis:
+      host: 10.211.55.4
+      port: 6379
+      password: fengyan1
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.211.55.4:8848
+
+short-link:
+  domain:
+    default: nurl.ink:8002
+  stats:
+    locale:
+#      amap-key: 824c511f0997586ea016f979fdb23087
+      amap-key: 52ea93d16720e5194b693abbd14d17c1
+
+# springdoc-openapi项目配置
+#springdoc:
+#  group-configs:
+#    - group: 后端管理接口
+#      packages-to-scan: com.fengrui.shortlink.project.controller
+
+# knife4j的增强配置，不需要增强可以不配
+#knife4j:
+#  enable: true
+#  setting:
+#    language: zh-CN
+
+logging:
+  pattern:
+    level: debug
+  config: classpath:logback-spring.xml
