@@ -1,6 +1,7 @@
 package com.fengrui.shortlink.admin.controller;
 
-import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService;
+import com.fengrui.shortlink.admin.remote.ShortLinkActualRemoteService;
+import com.fengrui.shortlink.admin.remote.ShortLinkRemoteService_bak;
 import com.fengrui.shortlink.common.convention.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,11 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UrlTitleController {
 
-    /**
-     * 后续重构为 SpringCloud Feign 调用
-     */
-    ShortLinkRemoteService shortLinkRemoteService = new ShortLinkRemoteService() {
-    };
+    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
 
     /**
      * 根据URL获取对应网站的标题
@@ -29,6 +26,6 @@ public class UrlTitleController {
     @GetMapping("/api/short-link/admin/title")
     @Operation(summary = "获取链接标题")
     public Result<String> getTitleByUrl(@RequestParam("url") String url) {
-        return shortLinkRemoteService.getTitleByUrl(url);
+        return shortLinkActualRemoteService.getTitleByUrl(url);
     }
 }

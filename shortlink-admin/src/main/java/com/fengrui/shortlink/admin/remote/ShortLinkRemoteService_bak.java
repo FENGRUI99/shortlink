@@ -1,6 +1,5 @@
 package com.fengrui.shortlink.admin.remote;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -20,7 +19,7 @@ import java.util.Map;
 /**
  * 短链接中台远程调用服务\
  */
-public interface ShortLinkRemoteService {
+public interface ShortLinkRemoteService_bak {
     /**
      * 创建短链接
      *

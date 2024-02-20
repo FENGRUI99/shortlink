@@ -21,7 +21,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
     <springProperty scope="context" name="app_name" source="logging.app-name" defaultValue="${project.name}"/>
     <springProperty scope="context" name="log_level" source="logging.level.root" defaultValue="INFO"/>
     <!-- 日志路径 -->
-    <springProperty scope="context" name="base_path" source="logging.base-path" defaultValue="/Users/r/Desktop/shortlink/logs"/>
+    <springProperty scope="context" name="base_path" source="logging.base-path" defaultValue="/home/parallels/shortlink/logs"/>
     <springProperty scope="context" name="log_path" source="logging.log-path" defaultValue="${base_path}/${app_name}"/>
 
     <!-- 日志格式，颜色配置参考ColorConverter,%-50.50代表左对齐，最小50，最大50，%logger{40}代表缩写类路径，且长度不超过40（类名永远不会被缩写）-->
